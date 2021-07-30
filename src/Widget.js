@@ -4,6 +4,7 @@ import AuthnWidget from "@ping-identity/pf-authn-js-widget";
 
 export const Widget = (props) => {
   useEffect(() => {
+
     // creating the options object
     let options = { divId: "authnwidget" };
     if (props.flowId)
@@ -15,9 +16,9 @@ export const Widget = (props) => {
     if (props.checkRecaptcha)
       options = { ...options, checkRecaptcha: props.checkRecaptcha };
     if (props.grecaptcha)
-      options = { ...options, grecaptcha: options.grecaptcha };
+      options = { ...options, grecaptcha: props.grecaptcha };
     if (props.deviceProfileScript)
-      options = { ...options, deviceProfileScript: options.deviceProfileScript };
+      options = { ...options, deviceProfileScript: props.deviceProfileScript };
     console.log(options);
 
     const authnWidget = new AuthnWidget(props.baseUrl, options);
