@@ -1,7 +1,6 @@
-
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {Widget} from 'widget-react'
+import { Widget } from 'widget-react'
 
 const grecaptcha = window.grecaptcha;
 
