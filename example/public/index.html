@@ -6,7 +6,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" type="text/css" href="https://assets.pingone.com/ux/end-user/0.36.1/end-user.css">
   <link rel="stylesheet" type="text/css" href="main-styles.css">
-  <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+  <script>  
+    var authnWidget;
+
+    function checkRecaptcha(token) {
+      console.log('captcha response: ' + token);
+      if (token.length === 0) {
+          //reCaptcha not verified
+          authnWidget.clearPendingState();
+          console.log('did not pass captcha try again');
+      } else {
+          authnWidget.dispatchPendingState(token);
+      }
+    }
+
+    function invokeReCaptcha() {
+      console.log(grecaptcha);
+      let token = grecaptcha.getResponse();
+      
+      console.log("token: " + token);
+      if (token) {
+          checkRecaptcha(token);
+      } else {
+        console.log("execute");
+        grecaptcha.execute();
+      }
+  }
+  </script>
+  <script src="https://www.google.com/recaptcha/api.js"></script>
   <link rel="stylesheet" type="text/css" href="./main-styles.css">
   <script src="./index.js" defer="true"></script>
 </head>
