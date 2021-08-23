@@ -1,10 +1,34 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import AuthnWidget from "@ping-identity/pf-authn-js-widget";
 
 export const Widget = (props) => {
-  useEffect(() => {
 
+  var authnWidget;
+
+  function checkRecaptcha(token) {
+    console.log('captcha response: ' + token);
+    if (token.length === 0) {
+        //reCaptcha not verified
+        authnWidget.clearPendingState();
+        console.log('did not pass captcha try again');
+    } else {
+        authnWidget.dispatchPendingState(token);
+    }
+}
+
+  function invokeReCaptcha() {
+      console.log(this.props.grecaptcha);
+      let token = this.props.grecaptcha.getResponse();
+      if (token) {
+          checkRecaptcha(token);
+      }
+      else {
+          this.props.grecaptcha.execute();
+      }
+  }
+
+  useEffect(() => {
     // creating the options object
     let options = { divId: "authnwidget" };
     if (props.flowId)
@@ -12,16 +36,16 @@ export const Widget = (props) => {
     if (props.logo)
       options = { ...options, logo: props.logo };
     if (props.invokeReCaptcha)
-      options = { ...options, invokeReCaptcha: props.invokeReCaptcha };
+      options = { ...options, invokeReCaptcha: {invokeReCaptcha} };
     if (props.checkRecaptcha)
-      options = { ...options, checkRecaptcha: props.checkRecaptcha };
+      options = { ...options, checkRecaptcha: "checkRecaptcha" };
     if (props.grecaptcha)
       options = { ...options, grecaptcha: props.grecaptcha };
     if (props.deviceProfileScript)
       options = { ...options, deviceProfileScript: props.deviceProfileScript };
     console.log(options);
 
-    const authnWidget = new AuthnWidget(props.baseUrl, options);
+    var authnWidget = new AuthnWidget(props.baseUrl, options);
     if (props.redirectlessConfig)
       authnWidget.initRedirectless(props.redirectlessConfig);
     else
