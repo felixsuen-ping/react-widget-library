@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import AuthnWidget from "@ping-identity/pf-authn-js-widget";
 

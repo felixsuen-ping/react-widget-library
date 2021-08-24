@@ -23,12 +23,9 @@
     function invokeReCaptcha() {
       console.log(grecaptcha);
       let token = grecaptcha.getResponse();
-      
-      console.log("token: " + token);
       if (token) {
           checkRecaptcha(token);
       } else {
-        console.log("execute");
         grecaptcha.execute();
       }
   }
