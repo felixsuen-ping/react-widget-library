@@ -11,19 +11,33 @@ export const Widget = (props) => {
     if (props.logo)
       options = { ...options, logo: props.logo };
     // enable recaptcha
-    if (invokeReCaptcha)
+    if (typeof invokeReCaptcha !== 'undefined')
       options = { ...options, invokeReCaptcha: invokeReCaptcha, checkRecaptcha: "checkRecaptcha" };
-    if (grecaptcha)
+    if (typeof grecaptcha !== 'undefined')
       options = { ...options, grecaptcha: grecaptcha };
+    if (props.useActionParam) {
+      options = { ...options, useActionParam: true }
+    }
     if (props.deviceProfileScript)
       options = { ...options, deviceProfileScript: props.deviceProfileScript };
     console.log(options);
 
-    authnWidget = new AuthnWidget(props.baseUrl, options);
-    if (props.redirectlessConfig)
-      authnWidget.initRedirectless(props.redirectlessConfig);
-    else
-      authnWidget.init();
+    if (typeof window.authnWidget !== undefined || window.authWidget == null) {
+      // if authnWidget is already initialized globally
+      window.authnWidget = new AuthnWidget(props.baseUrl, options);
+      if (props.redirectlessConfig)
+        window.authnWidget.initRedirectless(props.redirectlessConfig);
+      else
+        window.authnWidget.init();
+    } else {
+      // initialize authnWidget
+      var authnWidget = new AuthnWidget(props.baseUrl, options);
+      if (props.redirectlessConfig)
+        authnWidget.initRedirectless(props.redirectlessConfig);
+      else
+        authnWidget.init();
+    }
+    
   }, [])
   return (<div id="authnwidget" />);
 }
@@ -32,9 +46,7 @@ Widget.propTypes = {
   baseUrl: PropTypes.string.isRequired,
   flowId: PropTypes.string,
   logo: PropTypes.string,
-  invokeReCaptcha: PropTypes.func,
-  checkRecaptcha: PropTypes.string,
-  grecaptcha: PropTypes.object,
+  useActionParam: PropTypes.bool,
   deviceProfileScript: PropTypes.string,
   redirectlessConfig: PropTypes.object,
 }
