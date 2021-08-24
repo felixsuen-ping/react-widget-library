@@ -74,7 +74,8 @@ Here are all the available constructor parameters, their descriptions, and a usa
   - **divId**: where the widget should be rendered (Optional)
   - **logo**: to display on top of every page (Optional, this can be passed in as a file or as the URL where the image is hosted)
   - **useActionParam**: By default the widget uses a custom content type to request authentication API actions. If this flag is set to true, the widget instead uses a query parameter, which may be required in environments where custom content types are blocked. This query parameter is only supported for version 10.2 of PingFederate and later. (Optional)
-  - **redirectlessConfig**: enable redirectless mode by passing in a `config` object. Please refer to the [Redirectless Support](/docs/redirectless.md) guide for more infomation on how to configure PingFederate and how to use widget's redirectless feature. 
+  - **redirectlessConfig**: enable redirectless mode by passing in a `config` object. Please refer to the [Redirectless Support](/docs/redirectless.md) guide for more infomation on how to configure PingFederate and how to use widget's redirectless feature. (Optional)
+  - **deviceProfileScript**: Please refer to the [guide for using risk-based authentication with the widget](/docs/riskAuthentication.md) for more infomation on how to set up the widget with risk-based authentication adapters. (Optional)
 
 ```jsx
 <Widget 
@@ -83,6 +84,7 @@ Here are all the available constructor parameters, their descriptions, and a usa
     logo="https://path-to-my-logo.svg" 
     useActionParam={true}
     redirectlessConfig={config}
+    deviceProfileScript="pingone-risk-management-profiling.js"
 />
 ```
 

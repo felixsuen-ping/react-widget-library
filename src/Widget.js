@@ -15,9 +15,8 @@ export const Widget = (props) => {
       options = { ...options, invokeReCaptcha: invokeReCaptcha, checkRecaptcha: "checkRecaptcha" };
     if (typeof grecaptcha !== 'undefined')
       options = { ...options, grecaptcha: grecaptcha };
-    if (props.useActionParam) {
-      options = { ...options, useActionParam: true }
-    }
+    if (props.useActionParam)
+      options = { ...options, useActionParam: true };
     if (props.deviceProfileScript)
       options = { ...options, deviceProfileScript: props.deviceProfileScript };
     console.log(options);
